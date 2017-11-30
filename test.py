@@ -251,26 +251,24 @@ class TestSuite():
 def help():
     print('MariaDB Stress Test Suite (v1.0.0)\n')
     print('Usage: python test.py <table orientation> <test type> <iterations>\n')
-    print('Example: python test.py insert row 100')
+    print('Example: python test.py row insert 100')
     print('It will run 100 iterations of the insert test in a row table.\n')
     print('Available table orientations:')
     print('row | column\n')
     print('Available test types:')
     print('insert | long_insert | select | update\n')
     print('Number of iterations:')
-    print('[1, 10000]')
+    print('[1, 1000000]')
 
 def main():
-    if len(sys.argv) >= 1  and len(sys.argv) <= 3:
-        help()
-    elif len(sys.argv) == 4:
+    if len(sys.argv) == 4:
         if not sys.argv[1] == 'row' and not sys.argv[1] == 'column':
             logging.error('Unkown table orientation.')
             logging.info('Available options: row | column')
             sys.exit('Execution stopped!')
         try:
-            if int(sys.argv[3]) < 1 or int(sys.argv[3]) > 10000:
-                logging.error('Number of iterations should be between 0 and 10001.')
+            if int(sys.argv[3]) < 1 or int(sys.argv[3]) > 1000000:
+                logging.error('Number of iterations should be between 0 and 1000001.')
                 sys.exit('Execution stopped!')
         except ValueError as error:
             logging.error('Number of iterations should be a number: %s', error)
@@ -291,6 +289,8 @@ def main():
             logging.info('Available options: insert | long_insert | select | update')
             sys.exit('Execution stopped!')
         tester.close_connection_to_database()
+    else:
+        help()
 
 if __name__ == '__main__':
     main()
